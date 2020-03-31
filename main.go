@@ -53,7 +53,12 @@ func main() {
 		primeCommand.Calculator.Prime()
 		break
 	case "4":
-		fmt.Println("Fibonacci")
+		calculator := &receiver.Calculator{
+			X: 10,
+		}
+
+		fibonacciCommand := &command.FibonacciCommand{Calculator: calculator}
+		fibonacciCommand.Calculator.Fibonacci()
 		break
 	default:
 		fmt.Println("Invalid input. Close.")

@@ -36,7 +36,13 @@ func main() {
 		sumCommand.Calculator.Sum()
 		break
 	case "2":
-		fmt.Println("Multiply")
+		calculator := &receiver.Calculator{
+			X: 2,
+			Y: 4,
+		}
+
+		multiplyCommand := &command.MultiplyCommand{Calculator: calculator}
+		multiplyCommand.Calculator.Multiply()
 		break
 	case "3":
 		fmt.Println("Prime")

@@ -45,7 +45,12 @@ func main() {
 		multiplyCommand.Calculator.Multiply()
 		break
 	case "3":
-		fmt.Println("Prime")
+		calculator := &receiver.Calculator{
+			X: 10,
+		}
+
+		primeCommand := &command.PrimeCommand{Calculator: calculator}
+		primeCommand.Calculator.Prime()
 		break
 	case "4":
 		fmt.Println("Fibonacci")

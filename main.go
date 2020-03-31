@@ -6,6 +6,7 @@ import (
 	"kitabisa-test/command"
 	"kitabisa-test/receiver"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -27,40 +28,86 @@ func main() {
 
 	switch choice {
 	case "1":
-		calculator := &receiver.Calculator{
-			X: 2,
-			Y: 4,
+		input := GetInput("sum")
+		if input == nil {
+			fmt.Println("Invalid input. Close.")
+			break
 		}
 
-		sumCommand := &command.SumCommand{Calculator: calculator}
+		sumCommand := &command.SumCommand{Calculator: input}
 		sumCommand.Calculator.Sum()
 		break
 	case "2":
-		calculator := &receiver.Calculator{
-			X: 2,
-			Y: 4,
+		input := GetInput("multiply")
+		if input == nil {
+			fmt.Println("Invalid input. Close.")
+			break
 		}
 
-		multiplyCommand := &command.MultiplyCommand{Calculator: calculator}
+		multiplyCommand := &command.MultiplyCommand{Calculator: input}
 		multiplyCommand.Calculator.Multiply()
 		break
 	case "3":
-		calculator := &receiver.Calculator{
-			X: 10,
+		input := GetInput("prime")
+		if input == nil {
+			fmt.Println("Invalid input. Close.")
+			break
 		}
 
-		primeCommand := &command.PrimeCommand{Calculator: calculator}
+		primeCommand := &command.PrimeCommand{Calculator: input}
 		primeCommand.Calculator.Prime()
 		break
 	case "4":
-		calculator := &receiver.Calculator{
-			X: 10,
+		input := GetInput("fibonacci")
+		if input == nil {
+			fmt.Println("Invalid input. Close.")
+			break
 		}
 
-		fibonacciCommand := &command.FibonacciCommand{Calculator: calculator}
+		fibonacciCommand := &command.FibonacciCommand{Calculator: input}
 		fibonacciCommand.Calculator.Fibonacci()
 		break
 	default:
 		fmt.Println("Invalid input. Close.")
 	}
+}
+
+func GetInput(inputType string) *receiver.Calculator {
+	reader := bufio.NewReader(os.Stdin)
+
+	x := 0
+	y := 0
+
+	switch inputType {
+	case "sum", "multiply":
+		fmt.Print("Enter the [x, y] (example : 3, 2) : ")
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimRight(input, "\r\n")
+		input = strings.Replace(input, " ", "", -1)
+
+		inputs := strings.Split(input, ",")
+
+		if len(inputs) != 2 {
+			return nil
+		}
+
+		x, _ = strconv.Atoi(inputs[0])
+		y, _ = strconv.Atoi(inputs[1])
+		break
+
+	case "prime", "fibonacci":
+		fmt.Print("Enter N number to generate : ")
+		input1, _ := reader.ReadString('\n')
+		input1 = strings.TrimRight(input1, "\r\n")
+
+		x, _ = strconv.Atoi(input1)
+		break
+	}
+
+	calculator := &receiver.Calculator{
+		X: x,
+		Y: y,
+	}
+
+	return calculator
 }

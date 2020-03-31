@@ -1,0 +1,9 @@
+.idea
+.vscode
+/vendor
+main
+gin-bin
+gin-bin.exe*
+config.yaml
+dbconf.yml
+TODO
